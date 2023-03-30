@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "167699475447",
+    "project_id": "kusina-ni-imang",
+    "storage_bucket": "kusina-ni-imang.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:167699475447:android:3cd791e96bc0a49edc5cf2",
+        "android_client_info": {
+          "package_name": "com.github.cptzee.kusinniimang"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "167699475447-cnula2qoqtl4vdhtbepm0959tb3vaf98.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD8xNW1fMfr43k4wgxJFGdrw_HBoMvnVuE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "167699475447-cnula2qoqtl4vdhtbepm0959tb3vaf98.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

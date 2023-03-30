@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/loginUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="186dp"
+        android:layout_marginEnd="101dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="Username"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/loginPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:ems="10"
+        android:hint="Password"
+        android:inputType="textPassword"
+        app:layout_constraintEnd_toEndOf="@+id/loginUsername"
+        app:layout_constraintStart_toStartOf="@+id/loginUsername"
+        app:layout_constraintTop_toBottomOf="@+id/loginUsername" />
+
+    <Button
+        android:id="@+id/loginButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="LOGIN"
+        app:layout_constraintEnd_toEndOf="@+id/loginPassword"
+        app:layout_constraintStart_toStartOf="@+id/loginPassword"
+        app:layout_constraintTop_toBottomOf="@+id/loginNoAccount" />
+
+    <TextView
+        android:id="@+id/loginNoAccount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="Don't have an account?"
+        app:layout_constraintEnd_toStartOf="@+id/loginRegsiterText"
+        app:layout_constraintHorizontal_bias="0.92"
+        app:layout_constraintStart_toStartOf="@+id/loginPassword"
+        app:layout_constraintTop_toBottomOf="@+id/loginPassword" />
+
+    <TextView
+        android:id="@+id/loginRegsiterText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="SIGN IN"
+        android:textColor="#0000EE"
+        app:layout_constraintEnd_toEndOf="@+id/loginPassword"
+        app:layout_constraintTop_toBottomOf="@+id/loginPassword" />
+</androidx.constraintlayout.widget.ConstraintLayout>
