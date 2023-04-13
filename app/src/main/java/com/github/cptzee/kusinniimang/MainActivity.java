@@ -61,7 +61,9 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         Log.i("ConnectionHelper", "Internet connection not found!");
-        Toast.makeText(this, "No internet connection found! Running in offline mode.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "No internet connection found! Running in offline mode. You will only be able to login using" +
+                "accounts that are already signed in using this device for at least once!"
+                , Toast.LENGTH_LONG).show();
         if (preferences.getInt("accountID", 0) != 0) {
             runDashboard();
             return;

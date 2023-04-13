@@ -9,6 +9,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,6 +25,9 @@ import com.github.cptzee.kusinniimang.Data.Helper.CredentialHelper;
 import com.github.cptzee.kusinniimang.MainActivity;
 import com.github.cptzee.kusinniimang.R;
 import com.google.firebase.auth.FirebaseAuth;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class LoginFragment extends Fragment {
     public LoginFragment() {
@@ -44,9 +48,6 @@ public class LoginFragment extends Fragment {
         signIn = view.findViewById(R.id.loginRegsiterText);
         loginButton = view.findViewById(R.id.loginButton);
         editor = preferences.edit();
-        Credential credential = new Credential();
-        credential.setEmail(email.getText().toString());
-        credential.setPassword(password.getText().toString());
 
         signIn.setOnClickListener(v -> {
             if (hasInternet())
@@ -60,6 +61,9 @@ public class LoginFragment extends Fragment {
         });
         loginButton.setOnClickListener(v -> {
             FirebaseAuth mAuth = ((MainActivity) getActivity()).getmAuth();
+            Credential credential = new Credential();
+            credential.setEmail(email.getText().toString());
+            credential.setPassword(encryptedPassword(password.getText().toString()));
             if (hasInternet())
                 mAuth.signInWithEmailAndPassword(email.getText().toString(), password.getText().toString())
                         .addOnCompleteListener(getActivity(), task -> {
@@ -103,6 +107,25 @@ public class LoginFragment extends Fragment {
             }
             return null;
         }
+    }
+
+    private String encryptedPassword(String toEncrypt){
+        String encryptedPassword = "";
+        try {
+            MessageDigest m = MessageDigest.getInstance("MD5");
+            m.update(toEncrypt.getBytes());
+            byte[] bytes = m.digest();
+            StringBuilder s = new StringBuilder();
+            for(int i=0; i< bytes.length ;i++)
+            {
+                s.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+            }
+            encryptedPassword = s.toString();
+        }
+        catch (NoSuchAlgorithmException e) {
+            Log.e("Password Encrypter", "Unable to encrypt password!", e.getCause());
+        }
+        return encryptedPassword;
     }
 
     private class offlineLoginTask extends AsyncTask<Credential, Void, Boolean> {
