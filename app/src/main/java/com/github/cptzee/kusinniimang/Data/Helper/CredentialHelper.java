@@ -44,8 +44,9 @@ public class CredentialHelper extends SQLiteOpenHelper {
             db.execSQL("CREATE TABLE IF NOT EXISTS " + TABLENAME + "(" +
                     "ID INTEGER PRIMARY KEY AUTOINCREMENT," +
                     "accountID INTEGER," +
-                    "username TEXT," +
+                    "email TEXT," +
                     "password TEXT," +
+                    "uuid TEXT," +
                     "archived INTEGER);");
             Log.i(TABLENAME + "_Helper", "Table successfully created.");
         } catch (SQLiteException e) {
@@ -85,7 +86,7 @@ public class CredentialHelper extends SQLiteOpenHelper {
     public List<Credential> get(){
         List<Credential> list = new ArrayList<>();
         try {
-            Cursor cursor = dbr.rawQuery("SELECT ID, accountID, username, password " +
+            Cursor cursor = dbr.rawQuery("SELECT ID, accountID, email, password, uuid" +
                             "FROM " + TABLENAME + " WHERE archived = ?",
                     new String[]{String.valueOf(0)});
             while (cursor.moveToNext())
@@ -107,7 +108,7 @@ public class CredentialHelper extends SQLiteOpenHelper {
     public Credential get(int ID){
         Credential data = null;
         try {
-            Cursor cursor = dbr.rawQuery("SELECT ID, accountID, username, password " +
+            Cursor cursor = dbr.rawQuery("SELECT ID, accountID, email, password, uuid " +
                             "FROM " + TABLENAME + " WHERE ID = ?",
                     new String[]{String.valueOf(ID)});
             while (cursor.moveToNext())
@@ -146,10 +147,12 @@ public class CredentialHelper extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         if (data.getAccountID() != 0)
             contentValues.put("accountID", data.getAccountID());
-        if (data.getUsername() != null)
-            contentValues.put("username", data.getUsername());
+        if (data.getEmail() != null)
+            contentValues.put("email", data.getEmail());
         if (data.getPassword() != null)
-            contentValues.put("middleInitial", data.getPassword());
+            contentValues.put("password", data.getPassword());
+        if (data.getUuid() != null)
+            contentValues.put("uuid", data.getUuid());
         contentValues.put("archived", 0);
         return contentValues;
     }
@@ -158,8 +161,9 @@ public class CredentialHelper extends SQLiteOpenHelper {
         Credential data = new Credential();
         data.setID(cursor.getInt(0));
         data.setAccountID(cursor.getInt(1));
-        data.setUsername(cursor.getString(2));
+        data.setEmail(cursor.getString(2));
         data.setPassword(cursor.getString(3));
+        data.setUuid(cursor.getString(4));
         return data;
     }
 

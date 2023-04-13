@@ -3,8 +3,9 @@ package com.github.cptzee.kusinniimang.Data;
 public class Credential {
     private int ID;
     private int accountID;
-    private String username;
+    private String email;
     private String password;
+    private String uuid;
 
     public int getAccountID() {
         return accountID;
@@ -22,12 +23,12 @@ public class Credential {
         this.ID = ID;
     }
 
-    public String getUsername() {
-        return username;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
@@ -36,5 +37,13 @@ public class Credential {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 }

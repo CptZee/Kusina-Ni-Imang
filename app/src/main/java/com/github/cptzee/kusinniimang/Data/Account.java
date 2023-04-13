@@ -7,7 +7,6 @@ public class Account {
     private String firstName;
     private String lastName;
     private String middleInitial;
-    private String email;
     private String contactNo;
     private int credentialID;
     private AccountType type;
@@ -42,14 +41,6 @@ public class Account {
 
     public void setMiddleInitial(String middleInitial) {
         this.middleInitial = middleInitial;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getContactNo() {

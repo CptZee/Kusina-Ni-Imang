@@ -47,7 +47,6 @@ public class AccountHelper extends SQLiteOpenHelper {
                     "firstName TEXT," +
                     "lastName TEXT," +
                     "middleInitial TEXT," +
-                    "email TEXT," +
                     "contactNo TEXT," +
                     "credentialID INTEGER," +
                     "type TEXT," +
@@ -90,7 +89,7 @@ public class AccountHelper extends SQLiteOpenHelper {
     public List<Account> get(){
         List<Account> list = new ArrayList<>();
         try {
-            Cursor cursor = dbr.rawQuery("SELECT ID, firstName, lastName, middleInitial, email, contactNo, credentialID, type " +
+            Cursor cursor = dbr.rawQuery("SELECT ID, firstName, lastName, middleInitial, contactNo, credentialID, type " +
                     "FROM " + TABLENAME + " WHERE archived = ?",
                     new String[]{String.valueOf(0)});
             while (cursor.moveToNext())
@@ -112,7 +111,7 @@ public class AccountHelper extends SQLiteOpenHelper {
     public Account get(int ID){
         Account data = null;
         try {
-            Cursor cursor = dbr.rawQuery("SELECT ID, firstName, lastName, middleInitial, email, contactNo, credentialID, type " +
+            Cursor cursor = dbr.rawQuery("SELECT ID, firstName, lastName, middleInitial, contactNo, credentialID, type " +
                             "FROM " + TABLENAME + " WHERE ID = ?",
                     new String[]{String.valueOf(ID)});
             while (cursor.moveToNext())
@@ -155,8 +154,6 @@ public class AccountHelper extends SQLiteOpenHelper {
             contentValues.put("lastName", data.getLastName());
         if (data.getMiddleInitial() != null)
             contentValues.put("middleInitial", data.getMiddleInitial());
-        if (data.getEmail() != null)
-            contentValues.put("email", data.getEmail());
         if (data.getCredentialID() != 0)
             contentValues.put("credentialID", data.getCredentialID());
         if (data.getType().toString().isEmpty())
@@ -171,9 +168,8 @@ public class AccountHelper extends SQLiteOpenHelper {
         data.setFirstName(cursor.getString(1));
         data.setLastName(cursor.getString(2));
         data.setMiddleInitial(cursor.getString(3));
-        data.setEmail(cursor.getString(4));
-        data.setCredentialID(cursor.getInt(5));
-        if (cursor.getString(6).equals("ADMIN"))
+        data.setCredentialID(cursor.getInt(4));
+        if (cursor.getString(5).equals("ADMIN"))
             data.setType(AccountType.ADMIN);
         else
             data.setType(AccountType.USER);
