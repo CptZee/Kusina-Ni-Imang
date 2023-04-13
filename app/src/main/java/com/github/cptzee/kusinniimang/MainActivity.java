@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.github.cptzee.kusinniimang.Authentication.LoginFragment;
 import com.github.cptzee.kusinniimang.Authentication.SplashScreenFragment;
 import com.github.cptzee.kusinniimang.Dashboard.DashboardActivity;
+import com.github.cptzee.kusinniimang.Data.Helper.Database;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        new Database(this);
         mAuth = FirebaseAuth.getInstance();
         preferences = getSharedPreferences("Kusina", MODE_PRIVATE);
 
@@ -41,10 +43,7 @@ public class MainActivity extends AppCompatActivity {
                 .setReorderingAllowed(true)
                 .replace(R.id.mainFragmentHolder, SplashScreenFragment.class, null)
                 .commit();
-
-        new Handler().postDelayed(() -> {
-            runPersistentLogin();
-        }, 2000);
+        runPersistentLogin();
     }
 
     private void runPersistentLogin() {
@@ -53,29 +52,18 @@ public class MainActivity extends AppCompatActivity {
         if (activeNetwork != null && activeNetwork.isConnected()) {
             Log.i("ConnectionHelper", "Internet connection found!");
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-            if (user == null) {
-                runLogin();
-                return;
-            }
-            runDashboard();
+            if (user != null)
+                runDashboard();
             return;
         }
         Log.i("ConnectionHelper", "Internet connection not found!");
-        Toast.makeText(this, "No internet connection found! Running in offline mode. You will only be able to login using" +
-                "accounts that are already signed in using this device for at least once!"
-                , Toast.LENGTH_LONG).show();
         if (preferences.getInt("accountID", 0) != 0) {
             runDashboard();
             return;
         }
-        runLogin();
-    }
-
-    private void runLogin(){
-        getSupportFragmentManager().beginTransaction()
-                .setReorderingAllowed(true)
-                .replace(R.id.mainFragmentHolder, LoginFragment.class, null)
-                .commit();
+        Toast.makeText(this, "No internet connection found! Running in offline mode. You will only be able to login using" +
+                        "accounts that are already signed in using this device for at least once!"
+                , Toast.LENGTH_LONG).show();
     }
 
     private void runDashboard(){

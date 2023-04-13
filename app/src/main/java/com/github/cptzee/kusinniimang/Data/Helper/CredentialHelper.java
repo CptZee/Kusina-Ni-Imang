@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -86,7 +87,7 @@ public class CredentialHelper extends SQLiteOpenHelper {
     public List<Credential> get(){
         List<Credential> list = new ArrayList<>();
         try {
-            Cursor cursor = dbr.rawQuery("SELECT ID, accountID, email, password, uuid" +
+            Cursor cursor = dbr.rawQuery("SELECT ID, accountID, email, password, uuid " +
                             "FROM " + TABLENAME + " WHERE archived = ?",
                     new String[]{String.valueOf(0)});
             while (cursor.moveToNext())

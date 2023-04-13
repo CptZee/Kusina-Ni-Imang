@@ -1,6 +1,7 @@
 package com.github.cptzee.kusinniimang.Authentication;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -15,6 +16,10 @@ public class SplashScreenFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-
+        new Handler().postDelayed(() -> {
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.mainFragmentHolder, LoginFragment.class, null)
+                    .commit();
+        }, 2000);
     }
 }
