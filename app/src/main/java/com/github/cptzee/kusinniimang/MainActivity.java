@@ -3,31 +3,35 @@ package com.github.cptzee.kusinniimang;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.github.cptzee.kusinniimang.Authentication.LoginFragment;
-import com.github.cptzee.kusinniimang.Authentication.RegisterFragment;
 import com.github.cptzee.kusinniimang.Authentication.SplashScreenFragment;
 import com.github.cptzee.kusinniimang.Dashboard.DashboardActivity;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseOptions;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import java.io.FileInputStream;
-
 public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
+    private SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         mAuth = FirebaseAuth.getInstance();
+        preferences = getSharedPreferences("Kusina", MODE_PRIVATE);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -37,20 +41,48 @@ public class MainActivity extends AppCompatActivity {
                 .setReorderingAllowed(true)
                 .replace(R.id.mainFragmentHolder, SplashScreenFragment.class, null)
                 .commit();
+
         new Handler().postDelayed(() -> {
-            FirebaseUser currentUser = mAuth.getCurrentUser();
-            if(currentUser == null)
-                getSupportFragmentManager().beginTransaction()
-                        .setReorderingAllowed(true)
-                        .replace(R.id.mainFragmentHolder, LoginFragment.class, null)
-                        .commit();
-            else {
-                startActivity(new Intent(this, DashboardActivity.class));
-                this.finish();
-            }
+            runPersistentLogin();
         }, 2000);
     }
-    public void hideStatusBar(){
+
+    private void runPersistentLogin() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        if (activeNetwork != null && activeNetwork.isConnected()) {
+            Log.i("ConnectionHelper", "Internet connection found!");
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            if (user == null) {
+                runLogin();
+                return;
+            }
+            runDashboard();
+            return;
+        }
+        Log.i("ConnectionHelper", "Internet connection not found!");
+        Toast.makeText(this, "No internet connection found! Running in offline mode.", Toast.LENGTH_SHORT).show();
+        if (preferences.getInt("accountID", 0) != 0) {
+            runDashboard();
+            return;
+        }
+        runLogin();
+    }
+
+    private void runLogin(){
+        getSupportFragmentManager().beginTransaction()
+                .setReorderingAllowed(true)
+                .replace(R.id.mainFragmentHolder, LoginFragment.class, null)
+                .commit();
+    }
+
+    private void runDashboard(){
+        Toast.makeText(this, "Resuming last session...", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(this, DashboardActivity.class));
+        this.finish();
+    }
+
+    public void hideStatusBar() {
         if (Build.VERSION.SDK_INT < 16) {
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                     WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -59,9 +91,9 @@ public class MainActivity extends AppCompatActivity {
         int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
         decorView.setSystemUiVisibility(uiOptions);
     }
+
     @Override
-    public void onBackPressed()
-    {
+    public void onBackPressed() {
         if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setMessage("Are you sure you want to exit?")
@@ -70,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
                     .setNegativeButton("No", (dialog, id) -> dialog.cancel());
             AlertDialog alert = builder.create();
             alert.show();
-        }else
+        } else
             super.onBackPressed();
     }
 
