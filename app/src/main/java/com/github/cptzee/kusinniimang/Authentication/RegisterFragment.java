@@ -17,6 +17,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.concurrent.Executor;
@@ -64,14 +65,16 @@ public class RegisterFragment extends Fragment {
                 return;
             FirebaseAuth mAuth = ((MainActivity) getActivity()).getmAuth();
             mAuth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString())
-                    .addOnCompleteListener(getActivity(), (OnCompleteListener<AuthResult>) task -> {
+                    .addOnCompleteListener(getActivity(), task -> {
                         if (task.isSuccessful()) {
                             Log.i("Auth", "Account successfully created!");
                             getActivity().getSupportFragmentManager().beginTransaction()
                                     .setReorderingAllowed(true)
                                     .replace(R.id.mainFragmentHolder, LoginFragment.class, null)
                                     .commit();
-                        } else {
+                        } else if(task.getException() instanceof FirebaseAuthUserCollisionException){
+                            email.setError("Email already in use!");
+                        }else {
                             Log.e("Auth", "Unable to create account!", task.getException());
                             Toast.makeText(getActivity(), "Registration failed, make sure that you are connected to the internet!",
                                     Toast.LENGTH_SHORT).show();
