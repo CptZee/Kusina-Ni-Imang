@@ -11,6 +11,12 @@ public class Database {
     }
 
     private void init(){
+        AccountHelper ah = AccountHelper.instance(context);
+        CredentialHelper ch = CredentialHelper.instance(context);
+        ItemHelper ih = ItemHelper.instance(context);
 
+        ah.onCreate(ah.getWritableDatabase());
+        ch.onCreate(ch.getWritableDatabase());
+        ih.onCreate(ih.getWritableDatabase());
     }
 }
