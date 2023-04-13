@@ -1,6 +1,5 @@
-package com.github.cptzee.kusinniimang.Authentication;
+package com.github.cptzee.kusinniimang.Authentication.Fragment;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,20 +15,16 @@ import com.github.cptzee.kusinniimang.Data.Credential;
 import com.github.cptzee.kusinniimang.Data.Helper.CredentialHelper;
 import com.github.cptzee.kusinniimang.MainActivity;
 import com.github.cptzee.kusinniimang.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.concurrent.Executor;
 
 public class RegisterFragment extends Fragment {
     public RegisterFragment() {
-        super(R.layout.register_fragment);
+        super(R.layout.fragment_register);
     }
     private EditText email, password, password2;
     private TextView login;

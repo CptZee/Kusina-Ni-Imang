@@ -10,18 +10,14 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-import com.github.cptzee.kusinniimang.Authentication.LoginFragment;
 import com.github.cptzee.kusinniimang.Authentication.SplashScreenFragment;
 import com.github.cptzee.kusinniimang.Dashboard.DashboardActivity;
 import com.github.cptzee.kusinniimang.Data.Helper.Database;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 

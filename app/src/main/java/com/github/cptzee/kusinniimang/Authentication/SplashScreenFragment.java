@@ -7,11 +7,12 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.github.cptzee.kusinniimang.Authentication.Fragment.LoginFragment;
 import com.github.cptzee.kusinniimang.R;
 
 public class SplashScreenFragment extends Fragment {
     public SplashScreenFragment() {
-        super(R.layout.splash_fragment);
+        super(R.layout.fragment_splash);
     }
 
     @Override

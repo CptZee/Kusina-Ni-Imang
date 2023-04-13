@@ -1,4 +1,4 @@
-package com.github.cptzee.kusinniimang.Authentication;
+package com.github.cptzee.kusinniimang.Authentication.Fragment;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -31,7 +31,7 @@ import java.security.NoSuchAlgorithmException;
 
 public class LoginFragment extends Fragment {
     public LoginFragment() {
-        super(R.layout.login_fragment);
+        super(R.layout.fragment_login);
     }
 
     private EditText email, password;
